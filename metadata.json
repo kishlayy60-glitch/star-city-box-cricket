@@ -1,0 +1,6 @@
+{
+  "name": "Star City Box Cricket League 2026-27 Auction",
+  "description": "Official live auction, player registration, team bidding portal, and tournament schedule for Star City Box Cricket League 2026-27.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

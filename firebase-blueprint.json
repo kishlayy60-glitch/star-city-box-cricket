@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "player": {
+      "title": "Player",
+      "description": "Registered player for the cricket auction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string", "maxLength": 100 },
+        "dob": { "type": "string" },
+        "mobile": { "type": "string", "maxLength": 20 },
+        "tshirtName": { "type": "string", "maxLength": 50 },
+        "tshirtSize": { "type": "string", "enum": ["M", "L", "XL", "XXL"] },
+        "tshirtNumber": { "type": "string", "maxLength": 10 },
+        "role": { "type": "string", "enum": ["Batsman", "Bowler", "All Rounder", "Wicket Keeper"] },
+        "battingStyle": { "type": "string", "enum": ["Right Hand", "Left Hand"] },
+        "bowlingStyle": { "type": "string", "enum": ["Right Arm Fast", "Left Arm Fast", "Right Arm Spin", "Left Arm Spin", "None"] },
+        "photoUrl": { "type": "string" },
+        "matchesPlayed": { "type": "number" },
+        "totalRuns": { "type": "number" },
+        "highestScore": { "type": "number" },
+        "wickets": { "type": "number" },
+        "bestBowling": { "type": "string" },
+        "basePrice": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "verified", "active_bidding", "sold", "unsold"] },
+        "grade": { "type": "string", "enum": ["A", "B", "C", "D"] },
+        "soldPrice": { "type": "number" },
+        "soldToTeamId": { "type": "string" },
+        "soldToTeamName": { "type": "string" },
+        "paymentStatus": { "type": "string", "enum": ["pending", "verified", "rejected"] },
+        "paymentUtr": { "type": "string" },
+        "paymentDate": { "type": "string" },
+        "registrationDate": { "type": "string" }
+      },
+      "required": ["id", "fullName", "mobile", "role", "basePrice", "status", "paymentStatus"]
+    },
+    "team": {
+      "title": "Team",
+      "description": "Franchise cricket team participating in the auction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "shortName": { "type": "string", "maxLength": 10 },
+        "logo": { "type": "string" },
+        "captainName": { "type": "string", "maxLength": 100 },
+        "captainPhoto": { "type": "string" },
+        "captainMobile": { "type": "string" },
+        "pin": { "type": "string", "maxLength": 10 },
+        "color": { "type": "string" },
+        "secondaryColor": { "type": "string" },
+        "totalPurse": { "type": "number" },
+        "remainingPurse": { "type": "number" },
+        "playersCount": { "type": "number" }
+      },
+      "required": ["id", "name", "shortName", "captainName", "pin", "totalPurse", "remainingPurse"]
+    },
+    "fixture": {
+      "title": "Fixture",
+      "description": "Cricket tournament match fixture",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "matchNumber": { "type": "number" },
+        "team1Id": { "type": "string" },
+        "team1Name": { "type": "string" },
+        "team2Id": { "type": "string" },
+        "team2Name": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "venue": { "type": "string" },
+        "status": { "type": "string", "enum": ["scheduled", "live", "completed"] },
+        "result": { "type": "string" }
+      },
+      "required": ["id", "matchNumber", "team1Id", "team1Name", "team2Id", "team2Name", "date", "time", "venue", "status"]
+    },
+    "auction_state": {
+      "title": "AuctionState",
+      "description": "Current live auction state and bidding progress",
+      "type": "object",
+      "properties": {
+        "currentPlayerId": { "type": "string" },
+        "currentBid": { "type": "number" },
+        "leadingTeamId": { "type": "string" },
+        "leadingTeamName": { "type": "string" },
+        "timerSeconds": { "type": "number" },
+        "isPaused": { "type": "boolean" },
+        "isAuctionActive": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["currentBid", "isPaused", "isAuctionActive"]
+    },
+    "bid_log": {
+      "title": "BidLog",
+      "description": "Real-time bid record placed by a captain or admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "playerId": { "type": "string" },
+        "teamId": { "type": "string" },
+        "teamName": { "type": "string" },
+        "amount": { "type": "number" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "playerId", "teamId", "teamName", "amount", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/players/{playerId}": {
+      "schema": "player",
+      "description": "List of players registered in the league"
+    },
+    "/teams/{teamId}": {
+      "schema": "team",
+      "description": "Franchise teams participating in the league"
+    },
+    "/fixtures/{fixtureId}": {
+      "schema": "fixture",
+      "description": "Matches and schedules for the league"
+    },
+    "/auction/{auctionDocId}": {
+      "schema": "auction_state",
+      "description": "Live state of the current auction stage"
+    },
+    "/bids/{bidId}": {
+      "schema": "bid_log",
+      "description": "History of bids placed in the auction"
+    }
+  }
+}
